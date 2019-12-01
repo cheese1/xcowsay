@@ -12,8 +12,6 @@ set(COMPILATION_WARNINGS "-Wall -Wextra -Wpedantic -Wzero-as-null-pointer-consta
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ${COMPILATION_WARNINGS} -O3 -s")
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -L/usr/lib -lX11")
-
 set(SOURCE_FILES
         src/args_parser.cpp
         src/csi.cpp
@@ -29,6 +27,8 @@ set(HEADER_FILES
         src/xterm_colors.hpp)
 
 add_executable(xcowsay ${SOURCE_FILES} ${HEADER_FILES})
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -lX11")
+target_link_libraries(xcowsay "-lX11")
 
 #TODO try to use relative path and in install.sh use "make install DESTDIR=/usr/lib" "make install DESTDIR=/usr/share" with proper targets or find "install config"
 install(TARGETS xcowsay
@@ -39,5 +39,5 @@ install(FILES xscreen-config/xcowsay.xml
         PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ)
 
 install(FILES cows/christmas-tree.cow
-        DESTINATION /usr/share/cows
+        DESTINATION /usr/share/cowsay/cows
         PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ)
